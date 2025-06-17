@@ -6,12 +6,12 @@ from Venom import VenomX
 
 DEV_OP = [
     [
-        InlineKeyboardButton(text="🥀 ᴏᴡɴᴇʀ 🥀", user_id=OWNER),
-        InlineKeyboardButton(text="✨ ꜱᴜᴘᴘᴏʀᴛ ✨", url=f"https://t.me/{SUPPORT_GRP}"),
+        InlineKeyboardButton(text="🥀ᴍʏ ᴏᴡɴᴇʀ 🥀", user_id=OWNER),
+        InlineKeyboardButton(text="💗ᴊᴏɪɴ ɢɪʀʟ's ғᴀɴᴛᴀsʏ ɢʀᴏᴜᴘ 💗", url=f"https://t.me/{SUPPORT_GRP}"),
     ],
     [
         InlineKeyboardButton(
-            text="😍 ᴀᴅᴅ ᴍᴇ ʙᴀʙʏ 😍",
+            text="😍 ɪ ᴄᴏᴜʟᴅ ʙᴇ ʏᴏᴜʀs, ᴀᴅᴅ ᴍᴇ ʙᴀʙʏ ɴᴏᴡ🥰",
             url=f"https://t.me/{VenomX.username}?startgroup=true",
         ),
     ],
@@ -19,15 +19,15 @@ DEV_OP = [
         InlineKeyboardButton(text="🚀 ʜᴇʟᴘ & ᴄᴍᴅs 🚀", callback_data="HELP"),
     ],
     [
-        InlineKeyboardButton(text="❄️ sᴏᴜʀᴄᴇ ❄️", callback_data="SOURCE"),
-        InlineKeyboardButton(text="☁️ ᴀʙᴏᴜᴛ ☁️", callback_data="ABOUT"),
+        InlineKeyboardButton(text="❄️ ᴅᴇᴠ ❄️", callback_data="HOME"),
+        InlineKeyboardButton(text="☁️ ᴍʏ ɪɴᴛʀᴏ ☁️", callback_data="ABOUT"),
     ],
 ]
 
 PNG_BTN = [
     [
         InlineKeyboardButton(
-            text="😍 ᴀᴅᴅ ᴍᴇ ʙᴀʙʏ 😍",
+            text="😍 ɪ ᴄᴏᴜʟᴅ ʙᴇ ʏᴏᴜʀ ɴᴇxᴛ ɢғ,  ᴄᴏᴍᴍᴏɴ ᴀᴅᴅ ᴍᴇ ʙᴀʙʏ ɴᴏᴡ 😍😚",
             url=f"https://t.me/{VenomX.username}?startgroup=true",
         ),
     ],
@@ -121,10 +121,10 @@ ABOUT_BTN = [
     ],
     [
         InlineKeyboardButton(text="🍾 ᴏᴡɴᴇʀ 🍾", user_id=OWNER),
-        InlineKeyboardButton(text="❄️ sᴏᴜʀᴄᴇ ❄️", callback_data="SOURCE"),
+        InlineKeyboardButton(text="❄️ ᴅᴇᴠ ❄️", callback_data="HOME"),
     ],
     [
-        InlineKeyboardButton(text="🐳 ᴜᴘᴅᴀᴛᴇs 🐳", url=f"https://t.me/{UPDATE_CHNL}"),
+        InlineKeyboardButton(text="🐳 ᴍʏ ᴜᴘᴅᴀᴛᴇs 🐳", url=f"https://t.me/{UPDATE_CHNL}"),
         InlineKeyboardButton(text="✨ ʙᴀᴄᴋ ✨", callback_data="BACK"),
     ],
 ]
