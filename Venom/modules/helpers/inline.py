@@ -11,7 +11,7 @@ DEV_OP = [
     ],
     [
         InlineKeyboardButton(
-            text="😍ɪ ᴄᴏᴜ'ʙᴇ ʏᴏᴜʀs ʙᴀʙʏ ᴀᴅᴅ ᴍᴇ ɴᴏᴡ",
+            text="ɪ ᴄᴏᴜ'ʙᴇ ʏᴏᴜʀs❤️ ʙᴀʙʏ ᴀᴅᴅ ᴍᴇ ɴᴏᴡ",
             url=f"https://t.me/{VenomX.username}?startgroup=true",
         ),
     ],
@@ -49,7 +49,7 @@ BACK = [
 
 HELP_BTN = [
     [
-        InlineKeyboardButton(text="ʏᴜᴋɪᴛᴀ ᴄʜᴀᴛ 🧚‍♀️", callback_data="CHATBOT_CMD"),
+        InlineKeyboardButton(text="ʏᴜᴋɪᴛᴀ 🧚‍♀️", callback_data="CHATBOT_CMD"),
         InlineKeyboardButton(text="ᴛᴏᴏʟs 🎄", callback_data="TOOLS_DATA"),
     ],
     [
@@ -116,15 +116,15 @@ HELP_BUTN = [
 
 ABOUT_BTN = [
     [
-        InlineKeyboardButton(text="🎄 sᴜᴘᴘᴏʀᴛ 🎄", url=f"https://t.me/{SUPPORT_GRP}"),
-        InlineKeyboardButton(text="🚀 ʜᴇʟᴘ 🚀", callback_data="HELP"),
+        InlineKeyboardButton(text="🍃sᴜᴘᴘᴏʀᴛ", url=f"https://t.me/{SUPPORT_GRP}"),
+        InlineKeyboardButton(text="🌹ʜᴇʟᴘ", callback_data="HELP"),
     ],
     [
-        InlineKeyboardButton(text="🍾 ᴏᴡɴᴇʀ 🍾", user_id=OWNER),
-        InlineKeyboardButton(text="❄️ ᴅᴇᴠ ❄️", callback_data="HOME"),
+        InlineKeyboardButton(text="🥀 ᴏᴡɴᴇʀ ", user_id=OWNER),
+        InlineKeyboardButton(text="🌼 ʜᴏᴍᴇ ", callback_data="HOME"),
     ],
     [
-        InlineKeyboardButton(text="🐳 ᴍʏ ᴜᴘᴅᴀᴛᴇs 🐳", url=f"https://t.me/{UPDATE_CHNL}"),
-        InlineKeyboardButton(text="✨ ʙᴀᴄᴋ ✨", callback_data="BACK"),
+        InlineKeyboardButton(text="💐ᴍʏ ᴜᴘᴅᴀᴛᴇs", url=f"https://t.me/{UPDATE_CHNL}"),
+        InlineKeyboardButton(text="🍁 ʙᴀᴄᴋ", callback_data="BACK"),
     ],
 ]
