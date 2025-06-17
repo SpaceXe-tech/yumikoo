@@ -84,11 +84,11 @@ async def cb_handler(_, query: CallbackQuery):
         else:
             is_vick = vick.find_one({"chat_id": query.message.chat.id})
             if not is_vick:
-                await query.edit_message_text(f"**ʏᴏᴜʀ ʟᴏᴠᴇ💗ʏᴜᴍɪᴋᴏᴏ ɪs ᴀʟʀᴇᴀᴅʏ ᴀᴄᴛɪᴠᴇ.**")
+                await query.edit_message_text(f"**ʏᴏᴜʀ ʟᴏᴠᴇ💗 ʏᴜᴋɪᴛᴀ ɪs ᴀʟʀᴇᴀᴅʏ ᴀᴄᴛɪᴠᴇ.**")
             if is_vick:
                 vick.delete_one({"chat_id": query.message.chat.id})
                 await query.edit_message_text(
-                    f"**ʏᴜᴍɪᴋᴏ🧡 ᴄʜᴀᴛ-ʙᴏᴛ ᴇɴᴀʙʟᴇᴅ ʙʏ** {query.from_user.mention}."
+                    f"**ʏᴜᴋɪᴛᴀ🧡 ᴄʜᴀᴛ-ʙᴏᴛ ᴇɴᴀʙʟᴇᴅ ʙʏ** {query.from_user.mention}."
                 )
     elif query.data == "rmchat":
         user_id = query.from_user.id
@@ -104,7 +104,7 @@ async def cb_handler(_, query: CallbackQuery):
             if not is_vick:
                 vick.insert_one({"chat_id": query.message.chat.id})
                 await query.edit_message_text(
-                    f"**ʏᴜᴍɪᴋᴏ🧡 ᴅɪsᴀʙʟᴇᴅ ʙʏ** {query.from_user.mention}."
+                    f"**ʏᴜᴋɪᴛᴀ🧡 ᴅɪsᴀʙʟᴇᴅ ʙʏ** {query.from_user.mention}."
                 )
             if is_vick:
-                await query.edit_message_text("**ʏᴜᴍɪᴋᴏᴏ ɪs ɴᴏᴡ ɢᴏɪɴɢ ғᴏʀ ᴀ ᴡᴇᴛᴛʏ sʟᴇᴇᴘ ᴡɪᴛʜ ʜᴇʀ ʙᴀᴇ💌(ᴏғғ💤).**")
+                await query.edit_message_text("**ʏᴜᴋɪᴛᴀ ɪs ɴᴏᴡ ɢᴏɪɴɢ ғᴏʀ ᴀ ᴡᴇᴛᴛʏ sʟᴇᴇᴘ ᴡɪᴛʜ ʜᴇʀ ʙᴀᴇ💌(ᴏғғ💤).**")
