@@ -4,7 +4,7 @@ from Venom import VenomX
 START = f"""
 **๏ ʜᴇʏᴀ ᴄᴜᴛɪᴇ 💓, ʜᴏᴡ ᴀʀᴇ ʏᴏᴜ? , ɪ ᴀᴍ [{VenomX.name}](t.me/{VenomX.username})**
 **➻ ᴀɴ sᴜᴘᴇʀ ᴀᴅᴠᴀɴᴄᴇᴅ ᴀɪ ʙᴀsᴇᴅ ᴄʜᴀᴛʙᴏᴛ ᴘᴏᴡᴇʀᴇᴅ ʙʏ sᴘᴀᴄᴇ-x**
-**───────────────────────────────**
+**───────────────────────────**
 **➻ ᴜsᴀɢᴇ /chatbot [ᴏɴ/ᴏғғ]**
 <b>||๏ ʜɪᴛ ᴍʏ ʜᴇʟᴘ ʙᴜᴛᴛᴏɴ ᴛᴏ ᴋɴᴏᴡ ᴀʟʟ ᴄᴍᴅs.||</b>
 """
@@ -36,7 +36,7 @@ CHATBOT_READ = f"""
 <b>||©️ @{OWNER_USERNAME}||</b>
 """
 
-SOURCE_READ = f"**ʜᴇʏᴏ , ɪ'ᴍ [{VenomX.name}](https://t.me/{VenomX.username}) & ᴍʏ ᴜᴘᴅᴀᴛᴇ ᴄʜᴀɴɴᴇʟ ɪs ɢɪᴠᴇɴ ʙᴇʟᴏᴡ.**\n**ᴘʟᴇᴀsᴇ sᴜᴘᴘᴏʀᴛ ᴜs ✯**\n**──────────────────**\n** ᴄʜᴇᴄᴋᴏᴜᴛ ᴀᴛ (https://t.me/BillaSpace)**\n**──────────────────**\n**ɪғ ʏᴏᴜ ғᴀᴄᴇ ᴀɴʏ ᴘʀᴏʙʟᴇᴍ ᴛʜᴇɴ ᴄᴏɴᴛᴀᴄᴛ ᴀᴛ [sᴜᴘᴘᴏʀᴛ ᴄʜᴀᴛ](https://t.me/{SUPPORT_GRP}).\n<b>||©️ @{OWNER_USERNAME}||</b>"
+SOURCE_READ = f"**ʜᴇʏᴏ , ɪ'ᴍ [{VenomX.name}](https://t.me/{VenomX.username}) & ᴍʏ ᴜᴘᴅᴀᴛᴇ ᴄʜᴀɴɴᴇʟ ɪs ɢɪᴠᴇɴ ʙᴇʟᴏᴡ.**\n**ᴘʟᴇᴀsᴇ sᴜᴘᴘᴏʀᴛ ᴜs ✯**\n**──────────────────**\n** ᴄʜᴇᴄᴋᴏᴜᴛ ᴏᴛʜᴇʀ ʙᴏᴛs ᴀᴛ (https://t.me/BillaSpace)**\n**──────────────────**\n**ɪғ ʏᴏᴜ ғᴀᴄᴇ ᴀɴʏ ᴘʀᴏʙʟᴇᴍ ᴛʜᴇɴ ᴄᴏɴᴛᴀᴄᴛ ᴀᴛ [sᴜᴘᴘᴏʀᴛ ᴄʜᴀᴛ](https://t.me/{SUPPORT_GRP}).\n<b>||©️ @{OWNER_USERNAME}||</b>"
 
 ADMIN_READ = f"sᴏᴏɴ"
 
