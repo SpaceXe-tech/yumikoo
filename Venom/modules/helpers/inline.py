@@ -11,7 +11,7 @@ DEV_OP = [
     ],
     [
         InlineKeyboardButton(
-            text="😍 ɪ ᴄᴏᴜʟᴅ ʙᴇ ʏᴏᴜʀs ʙᴀʙʏ , ᴀᴅᴅ ᴍᴇ ɴᴏᴡ",
+            text="😍ɪ ᴄᴏᴜʟᴅ ʙᴇ ʏᴏᴜʀs ʙᴀʙʏ , ᴀᴅᴅ ᴍᴇ ɴᴏᴡ",
             url=f"https://t.me/{VenomX.username}?startgroup=true",
         ),
     ],
@@ -27,7 +27,7 @@ DEV_OP = [
 PNG_BTN = [
     [
         InlineKeyboardButton(
-            text="😻 ɪ ᴄᴏᴜʟᴅ ʙᴇ ʏᴏᴜʀ ɴᴇxᴛ ɢғ,ᴄᴏᴍᴍᴏɴ ᴀᴅᴅ ᴍᴇ ʙᴀʙʏ ɴᴏᴡ",
+            text="😻ᴄᴏᴍᴍ"ɴ ᴀᴅᴅ ᴍᴇ ʙᴀʙʏ ɴᴏᴡ",
             url=f"https://t.me/{VenomX.username}?startgroup=true",
         ),
     ],
