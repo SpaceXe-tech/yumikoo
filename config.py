@@ -9,7 +9,7 @@ API_HASH = getenv("API_HASH", "cf2a75861140ceb746c7796e07cbde9e")
 BOT_TOKEN = getenv("BOT_TOKEN", None)
 OWNER_ID = int(getenv("OWNER_ID", "7403602903"))
 MONGO_URL = getenv("MONGO_URL", None)
-SUPPORT_GRP = getenv("SUPPORT_GRP", "FRIENDS_MANSION")
+SUPPORT_GRP = getenv("SUPPORT_GRP", "friends_mansion")
 UPDATE_CHNL = getenv("UPDATE_CHNL", "BillaSpace")
 OWNER_USERNAME = getenv("OWNER_USERNAME", "oye_anurag")
 
