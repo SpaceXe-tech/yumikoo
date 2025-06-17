@@ -1,4 +1,4 @@
-from pyrogram import Client, filters
+from pyrogram import filters, Client
 from pyrogram.types import Message
 from Venom import VenomX, config
 from Venom.database.users import get_served_users
@@ -7,8 +7,8 @@ import asyncio
 
 # Authorized users
 OWNER_ID = config.OWNER_ID
-SUDO_ID = config.SUDO_ID
-AUTHORIZED_USERS = [OWNER_ID] + (SUDO_ID if isinstance(SUDO_ID, list) else [SUDO_ID])
+SUDO_IDS = config.SUDO_IDS
+AUTHORIZED_USERS = [OWNER_ID] + SUDO_IDS
 
 async def broadcast_to_users(app: Client, message: Message, text: str = None, media: bool = False, forward: bool = False):
     """
@@ -88,7 +88,7 @@ async def broadcast_to_chats(app: Client, message: Message, text: str = None, me
     
     return success_count, failed_count
 
-@VenomX.on_message(filters.command("broadcast") & filters.user(AUTHORIZED_USERS))
+@VenomX.on_message(filters.command("broadcast"))
 async def broadcast_command(_: Client, message: Message):
     """
     Command handler for /broadcast command.
@@ -100,6 +100,10 @@ async def broadcast_command(_: Client, message: Message):
         /broadcast users -forward - Forward to users only
         /broadcast chats -forward - Forward to chats only
     """
+    if message.from_user.id not in AUTHORIZED_USERS:
+        await message.reply_text("⚠️ You are not authorized to use this command. Only the owner or sudo users can use /broadcast.")
+        return
+
     args = message.text.split(maxsplit=2)
     forward = "-forward" in args
     target = "all"
