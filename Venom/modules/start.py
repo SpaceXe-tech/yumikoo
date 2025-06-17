@@ -1,5 +1,3 @@
-
-
 import asyncio
 import random
 
@@ -8,7 +6,7 @@ from pyrogram.enums import ChatType
 from pyrogram.types import InlineKeyboardMarkup, Message
 
 from config import EMOJIOS, IMG, STICKER
-from Venom import VenomX
+from Venom import VenomX, config
 from Venom.database.chats import add_served_chat
 from Venom.database.users import add_served_user
 from Venom.modules.helpers import (
@@ -21,7 +19,12 @@ from Venom.modules.helpers import (
     SOURCE_READ,
     START,
 )
+from Venom.Modules.broadcast import broadcast_command
 
+# Authorized users for restricted commands
+OWNER_ID = config.OWNER_ID
+SUDO_ID = config.SUDO_ID
+AUTHORIZED_USERS = [OWNER_ID] + (SUDO_ID if isinstance(SUDO_ID, list) else [SUDO_ID])
 
 @VenomX.on_cmd(["start", "aistart"])
 async def start(_, m: Message):
@@ -54,7 +57,6 @@ async def start(_, m: Message):
         )
         await add_served_chat(m.chat.id)
 
-
 @VenomX.on_cmd("help")
 async def help(client: VenomX, m: Message):
     if m.chat.type == ChatType.PRIVATE:
@@ -72,7 +74,6 @@ async def help(client: VenomX, m: Message):
         )
         await add_served_chat(m.chat.id)
 
-
 @VenomX.on_cmd("updates")
 async def repo(_, m: Message):
     await m.reply_text(
@@ -81,8 +82,12 @@ async def repo(_, m: Message):
         disable_web_page_preview=True,
     )
 
-
 @VenomX.on_message(filters.new_chat_members)
 async def welcome(_, m: Message):
     for member in m.new_chat_members:
         await m.reply_photo(photo=random.choice(IMG), caption=START)
+
+# Register broadcast command
+@VenomX.on_message(filters.command("broadcast") & filters.user(AUTHORIZED_USERS))
+async def broadcast(_, m: Message):
+    await broadcast_command(VenomX, m)
