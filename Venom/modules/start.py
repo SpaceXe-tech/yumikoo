@@ -23,8 +23,8 @@ from Venom.modules.broadcast import broadcast_command
 
 # Authorized users for restricted commands
 OWNER_ID = config.OWNER_ID
-SUDO_ID = config.SUDO_ID
-AUTHORIZED_USERS = [OWNER_ID] + (SUDO_ID if isinstance(SUDO_ID, list) else [SUDO_ID])
+SUDO_IDS = config.SUDO_IDS
+AUTHORIZED_USERS = [OWNER_ID] + SUDO_IDS
 
 @VenomX.on_cmd(["start", "aistart"])
 async def start(_, m: Message):
@@ -88,6 +88,9 @@ async def welcome(_, m: Message):
         await m.reply_photo(photo=random.choice(IMG), caption=START)
 
 # Register broadcast command
-@VenomX.on_message(filters.command("broadcast") & filters.user(AUTHORIZED_USERS))
+@VenomX.on_message(filters.command("broadcast"))
 async def broadcast(_, m: Message):
+    if m.from_user.id not in AUTHORIZED_USERS:
+        await m.reply_text("⚠️ You are not authorized to use this command. Only the owner or sudo users can use /broadcast.")
+        return
     await broadcast_command(VenomX, m)
