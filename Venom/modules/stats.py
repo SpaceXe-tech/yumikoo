@@ -6,11 +6,14 @@ from Venom.database.users import get_served_users
 
 # Authorized users
 OWNER_ID = config.OWNER_ID
-SUDO_ID = config.SUDO_ID
-AUTHORIZED_USERS = [OWNER_ID] + (SUDO_ID if isinstance(SUDO_ID, list) else [SUDO_ID])
+SUDO_IDS = config.SUDO_IDS
+AUTHORIZED_USERS = [OWNER_ID] + SUDO_IDS
 
-@VenomX.on_message(filters.command("stats") & filters.user(AUTHORIZED_USERS))
+@VenomX.on_message(filters.command("stats"))
 async def stats(cli: Client, message: Message):
+    if message.from_user.id not in AUTHORIZED_USERS:
+        await message.reply_text("⚠️ You are not authorized to use this command. Only the owner or sudo users can use /stats.")
+        return
     users = len(await get_served_users())
     chats = len(await get_served_chats())
     await message.reply_text(
