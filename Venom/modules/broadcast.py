@@ -1,17 +1,9 @@
-from Venom import db
-from pyrogram import Client
+from pyrogram import Client, filters
 from pyrogram.types import Message
-from Venom import config  # Import config for OWNER_ID and SUDO_ID
+from Venom import VenomX, config
+from Venom.database.users import get_served_users
+from Venom.database.chats import get_served_chats
 import asyncio
-import logging
-
-# Initialize logger
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
-# Database collections
-usersdb = db.users
-chatsdb = db.chatsdb
 
 # Authorized users
 OWNER_ID = config.OWNER_ID
@@ -31,7 +23,7 @@ async def broadcast_to_users(app: Client, message: Message, text: str = None, me
     """
     success_count = 0
     failed_count = 0
-    users = await usersdb.find({"user_id": {"$gt": 0}}).to_list(length=1000000000)
+    users = await get_served_users()
     
     for user in users:
         user_id = user["user_id"]
@@ -51,8 +43,7 @@ async def broadcast_to_users(app: Client, message: Message, text: str = None, me
                 await app.send_message(user_id, text or message.text)
             success_count += 1
             await asyncio.sleep(0.1)  # Avoid flood limits
-        except Exception as e:
-            logger.error(f"Failed to send broadcast to user {user_id}: {e}")
+        except:
             failed_count += 1
             continue
     
@@ -71,7 +62,7 @@ async def broadcast_to_chats(app: Client, message: Message, text: str = None, me
     """
     success_count = 0
     failed_count = 0
-    chats = await chatsdb.find({"chat_id": {"$lt": 0}}).to_list(length=1000000000)
+    chats = await get_served_chats()
     
     for chat in chats:
         chat_id = chat["chat_id"]
@@ -91,14 +82,14 @@ async def broadcast_to_chats(app: Client, message: Message, text: str = None, me
                 await app.send_message(chat_id, text or message.text)
             success_count += 1
             await asyncio.sleep(0.1)  # Avoid flood limits
-        except Exception as e:
-            logger.error(f"Failed to send broadcast to chat {chat_id}: {e}")
+        except:
             failed_count += 1
             continue
     
     return success_count, failed_count
 
-async def broadcast_command(app: Client, message: Message):
+@VenomX.on_message(filters.command("broadcast") & filters.user(AUTHORIZED_USERS))
+async def broadcast_command(_: Client, message: Message):
     """
     Command handler for /broadcast command.
     Usage: 
@@ -109,12 +100,6 @@ async def broadcast_command(app: Client, message: Message):
         /broadcast users -forward - Forward to users only
         /broadcast chats -forward - Forward to chats only
     """
-    # Check if user is authorized
-    if message.from_user.id not in AUTHORIZED_USERS:
-        await message.reply("You are not authorized to use this command.")
-        return
-
-    # Parse command arguments
     args = message.text.split(maxsplit=2)
     forward = "-forward" in args
     target = "all"
@@ -142,13 +127,13 @@ async def broadcast_command(app: Client, message: Message):
     total_failed = 0
 
     if target in ["users", "all"]:
-        success, failed = await broadcast_to_users(app, message.reply_to_message or message, text, media, forward)
+        success, failed = await broadcast_to_users(VenomX, message.reply_to_message or message, text, media, forward)
         total_success += success
         total_failed += failed
         await message.reply(f"User broadcast completed: {success} successful, {failed} failed.")
 
     if target in ["chats", "all"]:
-        success, failed = await broadcast_to_chats(app, message.reply_to_message or message, text, media, forward)
+        success, failed = await broadcast_to_chats(VenomX, message.reply_to_message or message, text, media, forward)
         total_success += success
         total_failed += failed
         await message.reply(f"Chat broadcast completed: {success} successful, {failed} failed.")
