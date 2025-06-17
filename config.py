@@ -20,7 +20,7 @@ MONGO_URL = getenv("MONGO_URL", None)
 
 # Support group and update channel (case-insensitive handling)
 SUPPORT_GRP = getenv("SUPPORT_GRP", "friends_mansion").lower()
-UPDATE_CHNL = getattr("UPDATE_CHNL", "BillaSpace").lower()
+UPDATE_CHNL = getenv("UPDATE_CHNL", "BillaSpace").lower()
 
 # Owner username (case-insensitive handling)
 OWNER_USERNAME = getenv("OWNER_USERNAME", "oye_anurag").lower()
