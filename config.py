@@ -11,14 +11,16 @@ BOT_TOKEN = getenv("BOT_TOKEN", None)
 
 # Owner and Sudo users
 OWNER_ID = int(getenv("OWNER_ID", "7403602903"))
-SUDO_ID = getenv("SUDO_ID", "5960968099")  # Can be a single ID or comma-separated list
+SUDO_ID = getenv("SUDO_ID", "")  # Can be a single ID or comma-separated string
+# Convert SUDO_ID to a list of integers
+SUDO_IDS = [int(sid) for sid in SUDO_ID.split(",") if sid.strip().isdigit()] if SUDO_ID else []
 
 # MongoDB URL
 MONGO_URL = getenv("MONGO_URL", None)
 
 # Support group and update channel (case-insensitive handling)
 SUPPORT_GRP = getenv("SUPPORT_GRP", "friends_mansion").lower()
-UPDATE_CHNL = getenv("UPDATE_CHNL", "BillaSpace").lower()
+UPDATE_CHNL = getattr("UPDATE_CHNL", "BillaSpace").lower()
 
 # Owner username (case-insensitive handling)
 OWNER_USERNAME = getenv("OWNER_USERNAME", "oye_anurag").lower()
