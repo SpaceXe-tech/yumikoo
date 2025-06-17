@@ -42,7 +42,7 @@ async def start(_, m: Message):
         await umm.delete()
         await m.reply_photo(
             photo=random.choice(IMG),
-            caption=f"""**๏ ʜᴇʏ, ɪ ᴀᴍ {VenomX.name}**\n**➻ ᴀɴ ᴀɪ ʙᴀsᴇᴅ ᴄʜᴀᴛʙᴏᴛ.**\n**──────────────**\n**➻ ᴜsᴀɢᴇ /chatbot [ᴏɴ/ᴏғғ]**\n<b>||๏ ʜɪᴛ ʜᴇʟᴘ ʙᴜᴛᴛᴏɴ ғᴏʀ ʜᴇʟᴘ||</b>""",
+            caption=f"""**๏ ʜᴏʟᴀ ᴀᴍɪɢᴏ ʙᴀʙʏ💟, ʜᴏᴡ ᴀʀᴇ ʏᴏᴜ?, ɪ ᴀᴍ {VenomX.name}**\n**➻ ᴀɴ ᴀɪ ʙᴀsᴇᴅ ᴄʜᴀᴛʙᴏᴛ .**\n**──────────────**\n**➻ ᴜsᴀɢᴇ /chatbot [ᴏɴ/ᴏғғ]**\n<b>||๏ ʜɪᴛ ʜᴇʟᴘ ʙᴜᴛᴛᴏɴ ғᴏʀ ʜᴇʟᴘ||</b>""",
             reply_markup=InlineKeyboardMarkup(DEV_OP),
         )
         await add_served_user(m.from_user.id)
@@ -67,13 +67,13 @@ async def help(client: VenomX, m: Message):
     else:
         await m.reply_photo(
             photo=random.choice(IMG),
-            caption="**ʜᴇʏ, ᴘᴍ ᴍᴇ ғᴏʀ ʜᴇʟᴘ ᴄᴏᴍᴍᴀɴᴅs!**",
+            caption="**ʜᴇʏ, ᴘʟᴇᴀsᴇ 🥺 ᴘᴍ ᴍᴇ ғᴏʀ ʜᴇʟᴘ ᴄᴏᴍᴍᴀɴᴅs!**",
             reply_markup=InlineKeyboardMarkup(HELP_BUTN),
         )
         await add_served_chat(m.chat.id)
 
 
-@VenomX.on_cmd("repo")
+@VenomX.on_cmd("owner")
 async def repo(_, m: Message):
     await m.reply_text(
         text=SOURCE_READ,
