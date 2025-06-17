@@ -36,7 +36,7 @@ async def cb_handler(_, query: CallbackQuery):
             text=START,
             reply_markup=InlineKeyboardMarkup(DEV_OP),
         )
-    elif query.data == "SOURCE":
+    elif query.data == "HOME":
         await query.message.edit(
             text=SOURCE_READ,
             reply_markup=InlineKeyboardMarkup(BACK),
@@ -78,13 +78,13 @@ async def cb_handler(_, query: CallbackQuery):
         user_status = (await query.message.chat.get_member(user_id)).status
         if user_status not in [CMS.OWNER, CMS.ADMINISTRATOR]:
             return await query.answer(
-                "ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴇᴠᴇɴ ᴀɴ ᴀᴅᴍɪɴ, ᴅᴏɴ'ᴛ ᴛʀʏ ᴛʜɪs ᴇxᴘʟᴏsɪᴠᴇ sʜɪᴛ!",
+                "ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴇᴠᴇɴ ᴀɴ ᴀᴅᴍɪɴ, ᴅᴏɴ'ᴛ ᴛʀʏ ᴛʜɪs ᴇxᴘʟᴏsɪᴠᴇ sʜɪᴛs!",
                 show_alert=True,
             )
         else:
             is_vick = vick.find_one({"chat_id": query.message.chat.id})
             if not is_vick:
-                await query.edit_message_text(f"**ᴄʜᴀᴛ-ʙᴏᴛ ᴀʟʀᴇᴀᴅʏ ᴇɴᴀʙʟᴇᴅ.**")
+                await query.edit_message_text(f"**ʏᴏᴜʀ ʟᴏᴠᴇ💗ʏᴜᴍɪᴋᴏᴏ ɪs ᴀʟʀᴇᴀᴅʏ ᴀᴄᴛɪᴠᴇ.**")
             if is_vick:
                 vick.delete_one({"chat_id": query.message.chat.id})
                 await query.edit_message_text(
@@ -95,7 +95,7 @@ async def cb_handler(_, query: CallbackQuery):
         user_status = (await query.message.chat.get_member(user_id)).status
         if user_status not in [CMS.OWNER, CMS.ADMINISTRATOR]:
             await query.answer(
-                "ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴇᴠᴇɴ ᴀɴ ᴀᴅᴍɪɴ, ᴅᴏɴ'ᴛ ᴛʀʏ ᴛʜɪs ᴇxᴘʟᴏsɪᴠᴇ sʜɪᴛ!",
+                "ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴇᴠᴇɴ ᴀɴ ᴀᴅᴍɪɴ, ᴅᴏɴ'ᴛ ᴛʀʏ ᴛʜɪs ᴇxᴘʟᴏsɪᴠᴇ sʜɪᴛs!",
                 show_alert=True,
             )
             return
@@ -107,4 +107,4 @@ async def cb_handler(_, query: CallbackQuery):
                     f"**ᴄʜᴀᴛ-ʙᴏᴛ ᴅɪsᴀʙʟᴇᴅ ʙʏ** {query.from_user.mention}."
                 )
             if is_vick:
-                await query.edit_message_text("**ᴄʜᴀᴛ-ʙᴏᴛ ᴀʟʀᴇᴀᴅʏ ᴅɪsᴀʙʟᴇᴅ.**")
+                await query.edit_message_text("**ʏᴜᴍɪᴋᴏᴏ ɪs ɴᴏᴡ ɢᴏɪɴɢ ғᴏʀ ᴀ ᴡᴇᴛᴛʏ sʟᴇᴇᴘ ᴡɪᴛʜ ʜᴇʀ ʙᴀᴇ💌(ᴏғғ💤).**")
