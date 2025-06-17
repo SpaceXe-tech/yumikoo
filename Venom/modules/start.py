@@ -19,7 +19,7 @@ from Venom.modules.helpers import (
     SOURCE_READ,
     START,
 )
-from Venom.Modules.broadcast import broadcast_command
+from Venom.modules.broadcast import broadcast_command
 
 # Authorized users for restricted commands
 OWNER_ID = config.OWNER_ID
