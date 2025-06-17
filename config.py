@@ -4,14 +4,24 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# Telegram API credentials
 API_ID = int(getenv("API_ID", 27353035))
 API_HASH = getenv("API_HASH", "cf2a75861140ceb746c7796e07cbde9e")
 BOT_TOKEN = getenv("BOT_TOKEN", None)
+
+# Owner and Sudo users
 OWNER_ID = int(getenv("OWNER_ID", "7403602903"))
+SUDO_ID = getenv("SUDO_ID", "5960968099")  # Can be a single ID or comma-separated list
+
+# MongoDB URL
 MONGO_URL = getenv("MONGO_URL", None)
-SUPPORT_GRP = getenv("SUPPORT_GRP", "friends_mansion")
-UPDATE_CHNL = getenv("UPDATE_CHNL", "BillaSpace")
-OWNER_USERNAME = getenv("OWNER_USERNAME", "oye_anurag")
+
+# Support group and update channel (case-insensitive handling)
+SUPPORT_GRP = getenv("SUPPORT_GRP", "friends_mansion").lower()
+UPDATE_CHNL = getenv("UPDATE_CHNL", "BillaSpace").lower()
+
+# Owner username (case-insensitive handling)
+OWNER_USERNAME = getenv("OWNER_USERNAME", "oye_anurag").lower()
 
 # Random Start Images
 IMG = [
