@@ -6,12 +6,12 @@ from pymongo import MongoClient
 from pyrogram import filters, Client
 from pyrogram.enums import ChatAction
 from pyrogram.types import InlineKeyboardMarkup, Message
-from config import MONGO_URL, OWNER_ID, SUDO_ID
+from config import MONGO_URL, OWNER_ID, SUDO_IDS
 from Venom import VenomX
 from Venom.modules.helpers import CHATBOT_ON, is_admins
 
 # Authorized users for restricted commands
-AUTHORIZED_USERS = set([OWNER_ID] + SUDO_ID)
+AUTHORIZED_USERS = set([OWNER_ID] + SUDO_IDS)
 
 @VenomX.on_cmd("chatbot", group_only=True)
 @adminsOnly("can_delete_messages")
