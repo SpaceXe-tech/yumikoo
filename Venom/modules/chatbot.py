@@ -1,6 +1,5 @@
-
 import random
-import random
+import logging
 from Abg.chat_status import adminsOnly
 from pymongo import MongoClient
 from pyrogram import filters, Client
@@ -10,6 +9,10 @@ from config import MONGO_URL, OWNER_ID, SUDO_IDS
 from Venom import VenomX
 from Venom.modules.helpers import CHATBOT_ON, is_admins
 
+# Configure logging
+logging.basicConfig(level=logging.ERROR)
+logger = logging.getLogger(__name__)
+
 # Authorized users for restricted commands
 AUTHORIZED_USERS = set([OWNER_ID] + SUDO_IDS)
 
@@ -18,66 +21,77 @@ AUTHORIZED_USERS = set([OWNER_ID] + SUDO_IDS)
 async def chaton_(_, m: Message):
     try:
         await m.reply_text(
-            f"ᴄʜᴀᴛ: {m.chat.title}\n**ᴄʜᴏᴏsᴇ ᴀɴ ᴏᴩᴛɪᴏɴ ᴛᴏ ᴇɴᴀʙʟᴇ/ᴅɪsᴀʙʟᴇ ᴄʜᴀᴛʙᴏᴛ.**",
+            f"ᴄʜᴀᴛ: {m.chat.title}\n**ᴄʜᴏᴏsᴇ ᴀɴ ᴏᴩᴛɪᴏɴ ᴛᴏ ᴇɴᴀʙʟᴇ/ᴅɪsᴀʙʟᴇ ʏᴜᴋɪᴛᴀ💐 ᴄʜᴀᴛ-ʙᴏᴛ.**",
             reply_markup=InlineKeyboardMarkup(CHATBOT_ON),
         )
-    except:
-        await m.reply_text("An error occurred. Please try again.")
+    except Exception as e:
+        logger.error(f"Error in chaton_: {e}")
+        await m.reply_text("Aɴ ᴇʀʀᴏʀ ᴏᴄᴄᴜʀᴇᴅ ᴡʜɪʟᴇ ᴀᴄᴛɪᴠᴀᴛɪɴɢ ᴄʜᴀᴛʙᴏᴛ. Pʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ ᴀғᴛᴇʀ 5 ᴍɪɴᴜᴛᴇs.")
     return
 
 @VenomX.on_cmd("rms", group_only=True)
 async def remove_sticker_replies(_: Client, m: Message):
+    chatdb = None
     try:
         if m.from_user.id not in AUTHORIZED_USERS:
-            await m.reply_text("⚠️ You are not authorized to use this command. Only the owner or sudo users can use /rms.")
+            await m.reply_text("⚠️ ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀᴜᴛʜᴏʀɪᴢᴇᴅ ᴛᴏ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ. ᴏɴʟʏ ᴛʜᴇ ᴏᴡɴᴇʀ ᴏʀ sᴜᴅᴏᴇʀs ᴄᴏᴜʟᴅ ᴜsᴇ /rms ᴄᴍᴅ.")
             return
         chatdb = MongoClient(MONGO_URL)
         chatai = chatdb["Word"]["WordDb"]
         deleted = chatai.delete_many({"check": "sticker"}).deleted_count
-        await m.reply_text(f"Removed {deleted} learned sticker replies from the database.")
-    except:
-        await m.reply_text("An error occurred while removing sticker replies.")
+        await m.reply_text(f"Rᴇᴍᴏᴠᴇᴅ {deleted} ʟᴇᴀʀɴᴇᴅ sᴛɪᴄᴋᴇʀ ʀᴇᴘʟɪᴇs ғʀᴏᴍ ᴍʏ ᴅᴀᴛᴀʙᴀsᴇ.")
+    except Exception as e:
+        logger.error(f"Error in remove_sticker_replies: {e}")
+        await m.reply_text("ᴀɴ ᴇʀʀᴏʀ ᴏᴄᴄᴜʀᴇᴅ ᴡʜɪʟᴇ ʀᴇᴍᴏᴠɪɴɢ sᴀᴠᴇᴅ sᴛɪᴄᴋᴇʀ ʀᴇᴘʟɪᴇs.")
     finally:
-        chatdb.close()
+        if chatdb:
+            chatdb.close()
 
 @VenomX.on_cmd("rmm", group_only=True)
 async def remove_message_replies(_: Client, m: Message):
+    chatdb = None
     try:
         if m.from_user.id not in AUTHORIZED_USERS:
-            await m.reply_text("⚠️ You are not authorized to use this command. Only the owner or sudo users can use /rmm.")
+            await m.reply_text("⚠️ ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀᴜᴛʜᴏʀɪᴢᴇᴅ ᴛᴏ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ. ᴏɴʟʏ ᴛʜᴇ ᴏᴡɴᴇʀ ᴏʀ sᴜᴅᴏᴇʀs ᴄᴏᴜʟᴅ ᴜsᴇ /rmm ᴄᴍᴅ.")
             return
         chatdb = MongoClient(MONGO_URL)
         chatai = chatdb["Word"]["WordDb"]
         deleted = chatai.delete_many({"check": {"$in": ["text", "none"]}}).deleted_count
-        await m.reply_text(f"Removed {deleted} learned message replies from the database.")
-    except:
-        await m.reply_text("An error occurred while removing message replies.")
+        await m.reply_text(f"ᴠᴀɴɪsʜᴇᴅ {deleted} ʟᴇᴀʀɴᴇᴅ ᴍᴇssᴀɢᴇ ʀᴇᴘʟɪᴇs ғʀᴏᴍ ᴍʏ ᴍᴇᴍᴏʀʏ.")
+    except Exception as e:
+        logger.error(f"Error in remove_message_replies: {e}")
+        await m.reply_text("ᴀɴ ᴇʀʀᴏʀ ᴏᴄᴄᴜʀᴇᴅ ᴡʜɪʟᴇ ʀᴇᴍᴏᴠɪɴɢ sᴀᴠᴇᴅ ᴍᴇssᴀɢᴇ ʀᴇᴘʟɪᴇs.")
     finally:
-        chatdb.close()
+        if chatdb:
+            chatdb.close()
 
 @VenomX.on_cmd("clear", group_only=True)
 async def clear_all_replies(_: Client, m: Message):
+    chatdb = None
     try:
         if m.from_user.id not in AUTHORIZED_USERS:
-            await m.reply_text("⚠️ You are not authorized to use this command. Only the owner or sudo users can use /clear.")
+            await m.reply_text("⚠️ ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀᴜᴛʜᴏʀɪᴢᴇᴅ ᴛᴏ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ. ᴏɴʟʏ ᴛʜᴇ ᴏᴡɴᴇʀ ᴏʀ sᴜᴅᴏᴇʀs ᴄᴏᴜʟᴅ ᴜsᴇ /clear ᴄᴍᴅ.")
             return
         chatdb = MongoClient(MONGO_URL)
         chatai = chatdb["Word"]["WordDb"]
         deleted = chatai.delete_many({}).deleted_count
-        await m.reply_text(f"Cleared all {deleted} learned replies from the database.")
-    except:
-        await m.reply_text("An error occurred while clearing all replies.")
+        await m.reply_text(f"sᴜᴄᴄᴇssғᴜʟʟʏ 🍃 ᴠᴀɴɪsʜᴇᴅ ᴀʟʟ {deleted} ʟᴇᴀʀɴᴇᴅ ʀᴇᴘʟɪᴇs ғʀᴏᴍ ᴍʏ ᴍᴇᴍᴏʀɪᴇs.")
+    except Exception as e:
+        logger.error(f"Error in clear_all_replies: {e}")
+        await m.reply_text("ᴀɴ ᴇʀʀᴏʀ ᴏᴄᴄᴜʀᴇᴅ ᴡʜɪʟᴇ ʀᴇᴍᴏᴠɪɴɢ ᴀʟʟ ʟᴇᴀʀɴᴇᴅ ʀᴇᴘʟɪᴇs.")
     finally:
-        chatdb.close()
+        if chatdb:
+            chatdb.close()
 
 @VenomX.on_cmd("rem", group_only=True)
 async def remove_specific_reply(_: Client, m: Message):
+    chatdb = None
     try:
         if m.from_user.id not in AUTHORIZED_USERS:
-            await m.reply_text("⚠️ You are not authorized to use this command. Only the owner or sudo users can use /rem.")
+            await m.reply_text("⚠️ ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀᴜᴛʜᴏʀɪᴢᴇᴅ ᴛᴏ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ. ᴏɴʟʏ ᴛʜᴇ ᴏᴡɴᴇʀ ᴏʀ sᴜᴅᴏᴇʀs ᴄᴏᴜʟᴅ ᴜsᴇ /rem ᴄᴍᴅ.")
             return
         if not m.reply_to_message:
-            await m.reply_text("Please reply to the message or sticker you want to remove from learned replies.")
+            await m.reply_text("ᴘʟᴇᴀsᴇ ʀᴇᴘʟʏ ᴛᴏ ᴛʜᴇ ᴍᴇssᴀɢᴇ ᴏʀ sᴛɪᴄᴋᴇʀ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ʀᴇᴍᴏᴠᴇ ғʀᴏᴍ ᴍʏ ʟᴇᴀʀɴᴇᴅ ᴄʜᴀᴛ ʀᴇᴘʟɪᴇs.")
             return
         chatdb = MongoClient(MONGO_URL)
         chatai = chatdb["Word"]["WordDb"]
@@ -86,21 +100,25 @@ async def remove_specific_reply(_: Client, m: Message):
         elif m.reply_to_message.sticker:
             deleted = chatai.delete_one({"text": m.reply_to_message.sticker.file_id}).deleted_count
         else:
-            await m.reply_text("Unsupported reply type. Reply to a text message or sticker.")
+            await m.reply_text("Uɴsᴜᴘᴘᴏʀᴛᴇᴅ ʀᴇᴍᴏᴠᴀʟ ᴛʏᴘᴇ. ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴛᴇxᴛ ᴍᴇssᴀɢᴇ ᴏʀ sᴛɪᴄᴋᴇʀ.")
             return
         if deleted > 0:
-            await m.reply_text("Removed the learned reply from the database.")
+            await m.reply_text("ᴠᴀɴɪsʜᴇᴅ ᴛʜᴇ ʟᴇᴀʀɴᴇᴅ ʀᴇᴘʟʏ ғʀᴏᴍ ᴍʏ ᴅᴀᴛᴀʙᴀsᴇ.")
         else:
-            await m.reply_text("No matching learned reply found in the database.")
-    except:
-        await m.reply_text("An error occurred while removing the specific reply.")
+            await m.reply_text("ɴᴏ ᴍᴀᴛᴄʜɪɴɢ ʟᴇᴀʀɴᴇᴅ sᴀᴠᴇᴅ ʀᴇᴘʟɪᴇs ғᴏᴜɴᴅ sᴏ ғᴀʀ ɪɴ ᴍʏ ᴍᴇᴍᴏʀʏ.")
+    except Exception as e:
+        logger.error(f"Error in remove_specific_reply: {e}")
+        await m.reply_text("ᴀɴ ᴇʀʀᴏʀ ᴏᴄᴄᴜʀᴇᴅ ᴡʜɪʟᴇ ʀᴇᴍᴏᴠɪɴɢ ᴛʜᴇ sᴘᴇᴄɪғɪᴄ ʟᴇᴀʀɴᴇᴅ ʀᴇᴘʟɪᴇs.")
     finally:
-        chatdb.close()
+        if chatdb:
+            chatdb.close()
 
 @VenomX.on_message(
     (filters.text | filters.sticker | filters.group) & ~filters.private & ~filters.bot, group=4
 )
 async def chatbot_text(client: Client, message: Message):
+    chatdb = None
+    vickdb = None
     try:
         if message.text and (
             message.text.startswith("!") or
@@ -173,16 +191,20 @@ async def chatbot_text(client: Client, message: Message):
                                 "check": "none",
                             }
                         )
-    except:
-        pass
+    except Exception as e:
+        logger.error(f"Error in chatbot_text: {e}")
     finally:
-        chatdb.close()
-        vickdb.close()
+        if chatdb:
+            chatdb.close()
+        if vickdb:
+            vickdb.close()
 
 @VenomX.on_message(
     (filters.sticker | filters.group | filters.text) & ~filters.private & ~filters.bot, group=4
 )
 async def chatbot_sticker(client: Client, message: Message):
+    chatdb = None
+    vickdb = None
     try:
         if message.text and (
             message.text.startswith("!") or
@@ -254,16 +276,19 @@ async def chatbot_sticker(client: Client, message: Message):
                                 "check": "none",
                             }
                         )
-    except:
-        pass
+    except Exception as e:
+        logger.error(f"Error in chatbot_sticker: {e}")
     finally:
-        chatdb.close()
-        vickdb.close()
+        if chatdb:
+            chatdb.close()
+        if vickdb:
+            vickdb.close()
 
 @VenomX.on_message(
     (filters.text | filters.sticker | filters.group) & ~filters.private & ~filters.bot, group=4
 )
 async def chatbot_pvt(client: Client, message: Message):
+    chatdb = None
     try:
         if message.text and (
             message.text.startswith("!") or
@@ -283,7 +308,7 @@ async def chatbot_pvt(client: Client, message: Message):
                 K.append(x["text"])
             if K:
                 hey = random.choice(K)
-                is_text = chatai.find_one({"text": hey})
+                is_text = chatai.find_one({"text": None})
                 Yo = is_text["check"]
                 if Yo == "sticker":
                     await message.reply_sticker(f"{hey}")
@@ -297,21 +322,23 @@ async def chatbot_pvt(client: Client, message: Message):
                 K.append(x["text"])
             if K:
                 hey = random.choice(K)
-                is_text = chatai.find_one({"text": hey})
+                is_text = chatai.find_one({"text": None})
                 Yo = is_text["check"]
                 if Yo == "sticker":
                     await message.reply_sticker(f"{hey}")
                 else:
                     await message.reply_text(f"{hey}")
-    except:
-        pass
+    except Exception as e:
+        logger.error(f"Error in chatbot_pvt: {e}")
     finally:
-        chatdb.close()
+        if chatdb:
+            chatdb.close()
 
 @VenomX.on_message(
     (filters.sticker | filters.group) & ~filters.private & ~filters.bot, group=4
 )
 async def chatbot_sticker_pvt(client: Client, message: Message):
+    chatdb = None
     try:
         if message.text and (
             message.text.startswith("!") or
@@ -351,7 +378,8 @@ async def chatbot_sticker_pvt(client: Client, message: Message):
                     await message.reply_text(f"{hey}")
                 else:
                     await message.reply_sticker(f"{hey}")
-    except:
-        pass
+    except Exception as e:
+        logger.error(f"Error in chatbot_sticker_pvt: {e}")
     finally:
-        chatdb.close()
+        if chatdb:
+            chatdb.close()
