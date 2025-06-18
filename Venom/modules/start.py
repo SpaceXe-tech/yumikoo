@@ -4,7 +4,7 @@ from pyrogram import filters
 from pyrogram.enums import ChatType
 from pyrogram.types import InlineKeyboardMarkup, Message
 from pyrogram.errors import ChannelPrivate
-from config import EMOJIOS, IMG, STICKER, OWNER_ID, SUDO_ID
+from config import EMOJIOS, IMG, STICKER, OWNER_ID, SUDO_IDS
 from Venom import VenomX
 from Venom.database.chats import add_served_chat
 from Venom.database.users import add_served_user
@@ -29,7 +29,7 @@ from Venom.modules.chatbot import (
 from Abg.chat_status import adminsOnly
 
 # Authorized users for restricted commands
-AUTHORIZED_USERS = set([OWNER_ID] + SUDO_ID)
+AUTHORIZED_USERS = set([OWNER_ID] + SUDO_IDS)
 
 @VenomX.on_cmd(["start", "aistart"])
 async def start(_, m: Message):
