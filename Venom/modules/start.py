@@ -1,13 +1,11 @@
 import asyncio
 import random
-
 from pyrogram import filters
 from pyrogram.enums import ChatType
 from pyrogram.types import InlineKeyboardMarkup, Message
 from pyrogram.errors import ChannelPrivate
-
-from config import EMOJIOS, IMG, STICKER
-from Venom import VenomX, config
+from config import EMOJIOS, IMG, STICKER, OWNER_ID, SUDO_IDS
+from Venom import VenomX
 from Venom.database.chats import add_served_chat
 from Venom.database.users import add_served_user
 from Venom.modules.helpers import (
@@ -21,41 +19,44 @@ from Venom.modules.helpers import (
     START,
 )
 from Venom.modules.broadcast import broadcast_command
+from Venom.modules.chatbot import (
+    chaton_,
+    remove_sticker_replies,
+    remove_message_replies,
+    clear_all_replies,
+    remove_specific_reply,
+)
+from Abg.chat_status import adminsOnly
 
 # Authorized users for restricted commands
-OWNER_ID = config.OWNER_ID
-SUDO_IDS = config.SUDO_IDS
-AUTHORIZED_USERS = [OWNER_ID] + SUDO_IDS
+AUTHORIZED_USERS = set([OWNER_ID] + SUDO_IDS)
 
 @VenomX.on_cmd(["start", "aistart"])
 async def start(_, m: Message):
     if m.chat.type == ChatType.PRIVATE:
-        accha = await m.reply_text(
-            text=random.choice(EMOJIOS),
-        )
-        await asyncio.sleep(1.3)
-        await accha.edit("__ᴅιиg ᴅσиg ꨄ︎ ѕтαятιиg..__")
-        await asyncio.sleep(0.2)
-        await accha.edit("__ᴅιиg ᴅσиg ꨄ sтαятιиg.....__")
-        await asyncio.sleep(0.2)
-        await accha.edit("__ᴅιиg ᴅσиg ꨄ︎ sтαятιиg..__")
-        await asyncio.sleep(0.2)
-        await accha.delete()
         try:
+            accha = await m.reply_text(
+                text=random.choice(EMOJIOS),
+            )
+            await asyncio.sleep(1.3)
+            await accha.edit("__ᴅιиg ᴅσиg ꨄ︎ ѕтαятιиg..__")
+            await asyncio.sleep(0.2)
+            await accha.edit("__ᴅιиg ᴅσиg ꨄ sтαятιиg.....__")
+            await asyncio.sleep(0.2)
+            await accha.edit("__ᴅιиg ᴅσиg ꨄ︎ sтαятιиg..__")
+            await asyncio.sleep(0.2)
+            await accha.delete()
             umm = await m.reply_sticker(sticker=random.choice(STICKER))
             await asyncio.sleep(2)
             await umm.delete()
-        except ChannelPrivate:
-            pass  # Skip if chat is inaccessible
-        try:
             await m.reply_photo(
                 photo=random.choice(IMG),
-                caption=f"""**๏ ʜᴏʟᴀ ᴀᴍɪɢᴏ ʙᴀʙʏ 💟 ʜᴏᴡ ᴀʀᴇ ʏᴏᴜ?, ɪ ᴀᴍ {VenomX.name}**\n**➻ ᴀɴ ᴀɪ ʙᴀsᴇᴅ ᴄʜᴀᴛʙᴏᴛ .**\n**──────────────**\n**➻ ᴜsᴀɢᴇ /chatbot [ᴏɴ/ᴏғғ]**\n<b>||๏ ʜɪᴛ ʜᴇʟᴘ ʙᴜᴛᴛᴏɴ ғᴏʀ ʜᴇʟᴘ||</b>""",
+                caption=f"""**๏ ʜᴏʟᴀ ᴀᴍɪɢᴏ ʙᴀʙʏ💟, ʜᴏᴡ ᴀʀᴇ ʏᴏᴜ?, ɪ ᴀᴍ {VenomX.name}**\n**➻ ᴀɴ ᴀɪ ʙᴀsᴇᴅ ᴄʜᴀᴛʙᴏᴛ .**\n**──────────────**\n**➻ ᴜsᴀɢᴇ /chatbot [ᴏɴ/ᴏғғ]**\n<b>||๏ ʜɪᴛ ʜᴇʟᴩ ʙᴜᴛᴛᴏɴ ғᴏʀ ʜᴇʟᴩ||</b>""",
                 reply_markup=InlineKeyboardMarkup(DEV_OP),
             )
             await add_served_user(m.from_user.id)
         except ChannelPrivate:
-            pass  # Skip if chat is inaccessible
+            pass
     else:
         try:
             await m.reply_photo(
@@ -65,7 +66,7 @@ async def start(_, m: Message):
             )
             await add_served_chat(m.chat.id)
         except ChannelPrivate:
-            pass  # Skip if chat is inaccessible
+            pass
 
 @VenomX.on_cmd("help")
 async def help(client: VenomX, m: Message):
@@ -83,7 +84,7 @@ async def help(client: VenomX, m: Message):
         try:
             await m.reply_photo(
                 photo=random.choice(IMG),
-                caption="**ʜᴇʏ, ᴘʟᴇᴀsᴇ 🥺 ᴘᴍ ᴍᴇ ғᴏʀ ʜᴇʟᴘ ᴄᴏᴍᴍᴀɴᴅs!**",
+                caption="**ʜᴇʏ, ᴘʟᴇᴀsᴇ 🥺 ᴘᴍ ᴍᴇ ғᴏʀ ʜᴇʟᴩ ᴄᴏᴍᴍᴀɴᴅs!**",
                 reply_markup=InlineKeyboardMarkup(HELP_BUTN),
             )
             await add_served_chat(m.chat.id)
@@ -116,3 +117,37 @@ async def broadcast(_, m: Message):
         await m.reply_text("⚠️ You are not authorized to use this command. Only the owner or sudo users can use /broadcast.")
         return
     await broadcast_command(VenomX, m)
+
+# Register chatbot commands
+@VenomX.on_cmd("chatbot", group_only=True)
+@adminsOnly("can_delete_messages")
+async def chatbot_cmd(_, m: Message):
+    await chaton_(VenomX, m)
+
+@VenomX.on_cmd("rms", group_only=True)
+async def rms_cmd(_, m: Message):
+    if m.from_user.id not in AUTHORIZED_USERS:
+        await m.reply_text("⚠️ You are not authorized to use this command. Only the owner or sudo users can use /rms.")
+        return
+    await remove_sticker_replies(VenomX, m)
+
+@VenomX.on_cmd("rmm", group_only=True)
+async def rmm_cmd(_, m: Message):
+    if m.from_user.id not in AUTHORIZED_USERS:
+        await m.reply_text("⚠️ You are not authorized to use this command. Only the owner or sudo users can use /rmm.")
+        return
+    await remove_message_replies(VenomX, m)
+
+@VenomX.on_cmd("clear", group_only=True)
+async def clear_cmd(_, m: Message):
+    if m.from_user.id not in AUTHORIZED_USERS:
+        await m.reply_text("⚠️ You are not authorized to use this command. Only the owner or sudo users can use /clear.")
+        return
+    await clear_all_replies(VenomX, m)
+
+@VenomX.on_cmd("rem", group_only=True)
+async def rem_cmd(_, m: Message):
+    if m.from_user.id not in AUTHORIZED_USERS:
+        await m.reply_text("⚠️ You are not authorized to use this command. Only the owner or sudo users can use /rem.")
+        return
+    await remove_specific_reply(VenomX, m)
