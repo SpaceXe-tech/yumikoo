@@ -11,7 +11,7 @@ from Venom import VenomX
 from Venom.modules.helpers import CHATBOT_ON, is_admins
 
 # Authorized users for restricted commands
-AUTHORIZED_USERS = set([OWNER_ID] + SUDO_IDS)
+AUTHORIZED_USERS = set([OWNER_ID] + SUDO_ID)
 
 @VenomX.on_cmd("chatbot", group_only=True)
 @adminsOnly("can_delete_messages")
