@@ -177,7 +177,7 @@ async def chatbot_text(client: Client, message: Message):
                         reply, check_type = random.choice(replies)
                         await client.send_chat_action(message.chat.id, ChatAction.TYPING)
                         await message.reply_text(reply)
-            elif message.reply_to_message.from_user.id == client.me.id:
+            elif message.reply_to_message and message.reply_to_message.from_user and message.reply_to_message.from_user.id == client.me.id:
                 # Respond with text replies from cache if /chatbot is enabled
                 if message.text in REPLY_CACHE["text"]:
                     replies = [(r, t) for r, t in REPLY_CACHE["text"][message.text] if t in ["text", "none"]]
@@ -185,7 +185,7 @@ async def chatbot_text(client: Client, message: Message):
                         reply, check_type = random.choice(replies)
                         await client.send_chat_action(message.chat.id, ChatAction.TYPING)
                         await message.reply_text(reply)
-            elif message.reply_to_message.text:
+            elif message.reply_to_message and message.reply_to_message.text:
                 # Learn new reply (text or sticker)
                 if message.sticker:
                     is_chat = chatai.find_one({"word": message.reply_to_message.text, "id": message.sticker.file_unique_id})
@@ -235,7 +235,7 @@ async def chatbot_sticker(client: Client, message: Message):
                         reply, check_type = random.choice(replies)
                         await client.send_chat_action(message.chat.id, ChatAction.TYPING)
                         await message.reply_sticker(reply)
-            elif message.reply_to_message.from_user.id == client.me.id:
+            elif message.reply_to_message and message.reply_to_message.from_user and message.reply_to_message.from_user.id == client.me.id:
                 # Respond with sticker replies from cache if /schatbot is enabled
                 if message.sticker.file_unique_id in REPLY_CACHE["sticker"]:
                     replies = [(r, t) for r, t in REPLY_CACHE["sticker"][message.sticker.file_unique_id] if t == "sticker"]
@@ -243,7 +243,7 @@ async def chatbot_sticker(client: Client, message: Message):
                         reply, check_type = random.choice(replies)
                         await client.send_chat_action(message.chat.id, ChatAction.TYPING)
                         await message.reply_sticker(reply)
-            elif message.reply_to_message.sticker:
+            elif message.reply_to_message and message.reply_to_message.sticker:
                 # Learn new reply (text or sticker)
                 if message.text and not is_slang(message.text):
                     is_chat = chatai.find_one({"word": message.reply_to_message.sticker.file_unique_id, "text": message.text})
@@ -280,7 +280,7 @@ async def chatbot_text_pvt(client: Client, message: Message):
     chatdb = MongoClient(MONGO_URL)
     try:
         chatai = chatdb["Word"]["WordDb"]
-        if not message.reply_to_message or message.reply_to_message.from_user.id == client.me.id:
+        if not message.reply_to_message or (message.reply_to_message and message.reply_to_message.from_user and message.reply_to_message.from_user.id == client.me.id):
             # Respond with text replies from cache
             if message.text in REPLY_CACHE["text"]:
                 replies = [(r, t) for r, t in REPLY_CACHE["text"][message.text] if t in ["text", "none"]]
@@ -299,7 +299,7 @@ async def chatbot_sticker_pvt(client: Client, message: Message):
     chatdb = MongoClient(MONGO_URL)
     try:
         chatai = chatdb["Word"]["WordDb"]
-        if not message.reply_to_message or message.reply_to_message.from_user.id == client.me.id:
+        if not message.reply_to_message or (message.reply_to_message and message.reply_to_message.from_user and message.reply_to_message.from_user.id == client.me.id):
             # Respond with sticker replies from cache
             if message.sticker.file_unique_id in REPLY_CACHE["sticker"]:
                 replies = [(r, t) for r, t in REPLY_CACHE["sticker"][message.sticker.file_unique_id] if t == "sticker"]
