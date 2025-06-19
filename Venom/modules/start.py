@@ -1,11 +1,11 @@
 import asyncio
 import random
+from Venom import VenomX
 from pyrogram import filters
 from pyrogram.enums import ChatType
 from pyrogram.types import InlineKeyboardMarkup, Message
 from pyrogram.errors import ChannelPrivate
 from config import EMOJIOS, IMG, STICKER, OWNER_ID, SUDO_IDS
-from Venom import VenomX
 from Venom.database.chats import add_served_chat
 from Venom.database.users import add_served_user
 from Venom.modules.helpers import (
@@ -43,9 +43,9 @@ async def start(_, m: Message):
             
             # Single message with animation effect
             msg = await m.reply_text(f"{emoji} __ᴅιиg ᴅσиg ꨄ︎ ѕтαятιиg..__")
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(0.2)
             await msg.edit(f"{emoji} __ᴅιиg ᴅσиg ꨄ sтαятιиg.....__")
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(0.2)
             await msg.delete()
             
             # Send sticker briefly
@@ -56,7 +56,7 @@ async def start(_, m: Message):
             # Final message with updated caption format
             await m.reply_photo(
                 photo=img,
-                caption=f"""<b><blockquote>ʜᴇya ǫᴛ/ǫᴛᴀ 💞, ɪ'ᴍ {VenomX.name} 💜</blockquote></b>\n──────────────\n<b>• ᴛʏᴘᴇ :</b> ᴀɪ-ʙᴀsᴇᴅ ᴄʜᴀᴛʙᴏᴛ\n<b>• ᴜsᴀɢᴇ :</b> /chatbot [ᴏɴ/ᴏғғ] ғᴏʀ ᴛᴇxᴛs ᴏʀ /schatbot [ᴏɴ/ᴏғғ] ғᴏʀ sᴛɪᴄᴋᴇʀs\n<b>• ɴᴏᴛᴇ :</b> ʜɪᴛ ʜᴇʟᴘ ʙᴜᴛᴛᴏɴ ғᴏʀ ᴍᴏʀᴇ ɪɴғᴏ""",
+                caption=f"""<blockquote>ʜᴇya ǫᴛ/ǫᴛᴀ 💞, ɪ'ᴍ {VenomX.name} 💜</blockquote></b>\n──────────────\n<b>• ᴛʏᴘᴇ :</b> ᴀɪ-ʙᴀsᴇᴅ ᴄʜᴀᴛʙᴏᴛ\n<b>• ᴜsᴀɢᴇ :</b> /chatbot [ᴏɴ/ᴏғғ] ғᴏʀ ᴛᴇxᴛs ᴏʀ /schatbot [ᴏɴ/ᴏғғ] ғᴏʀ sᴛɪᴄᴋᴇʀs\n<b>• ɴᴏᴛᴇ :</b> ʜɪᴛ ʜᴇʟᴘ ʙᴜᴛᴛᴏɴ ғᴏʀ ᴍᴏʀᴇ ɪɴғᴏ""",
                 reply_markup=InlineKeyboardMarkup(DEV_OP),
             )
             await add_served_user(m.from_user.id)
@@ -66,7 +66,7 @@ async def start(_, m: Message):
         try:
             await m.reply_photo(
                 photo=random.choice(IMG),
-                caption=f"""<b><blockquote>ʜᴇʟʟᴏ, ɪ'ᴍ {VenomX.name} 🤖</blockquote></b>\n──────────────\n<b>• ᴛʏᴘᴇ :</b> ᴀɪ-ʙᴀsᴇᴅ ᴄʜᴀᴛʙᴏᴛ\n<b>• ɴᴏᴛᴇ :</b> ᴘʟᴇᴀsᴇ ᴜsᴇ /help ᴛᴏ ᴇxᴘʟᴏʀᴇ ᴍʏ ᴄᴏᴍᴍᴀɴᴅs""",
+                caption=f"""<blockquote>ʜᴇʟʟᴏ, ɪ'ᴍ {VenomX.name} ✨</blockquote>\n──────────────\n<b>• ᴛʏᴘᴇ :</b> ᴀɪ-ʙᴀsᴇᴅ ᴄʜᴀᴛʙᴏᴛ\n<blockquote>• ɴᴏᴛᴇ :</b> ᴘʟᴇᴀsᴇ ᴜsᴇ /help ᴛᴏ ᴇxᴘʟᴏʀᴇ ᴍʏ ᴄᴏᴍᴍᴀɴᴅs""",
                 reply_markup=InlineKeyboardMarkup(HELP_START),
             )
             await add_served_chat(m.chat.id)
