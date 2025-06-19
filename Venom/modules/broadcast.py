@@ -1,5 +1,6 @@
 from pyrogram import filters, Client
 from pyrogram.types import Message
+from pyrogram.errors import RPCError
 from Venom import VenomX, config
 from Venom.database.users import get_served_users
 from Venom.database.chats import get_served_chats
@@ -12,70 +13,84 @@ AUTHORIZED_USERS = [OWNER_ID] + SUDO_IDS
 
 async def broadcast_message(app: Client, message: Message, targets: list, forward: bool = False, exclude_bots: bool = False, progress_msg: Message = None):
     """
-    Broadcast or forward a message to specified targets with realtime updates.
+    Broadcast or forward a message to specified targets sequentially with detailed progress updates.
     
     Args:
         app (Client): Pyrogram client instance
         message (Message): The message to broadcast or forward
         targets (list): List of "users" and/or "groups"
-        forward (bool): Whether to forward the message (preserves emojis, inline buttons)
+        forward (bool): Whether to forward the message
         exclude_bots (bool): Exclude bot chats
         progress_msg (Message): Message to edit for progress updates
     """
-    success_count = 0
-    failed_count = 0
-    total_processed = 0
+    success_groups = 0
+    failed_groups = 0
+    success_users = 0
+    failed_users = 0
     update_interval = 10  # Update every 10 messages
 
-    # Handle users
-    if "users" in targets:
-        users = await get_served_users()
-        for user in users:
-            user_id = user["user_id"]
-            try:
-                if forward:
-                    await message.forward(user_id)
-                else:
-                    await message.copy(user_id)
-                success_count += 1
-            except:
-                failed_count += 1
-            total_processed += 1
-            if total_processed % update_interval == 0 and progress_msg:
-                await progress_msg.edit_text(f"Progress: {success_count} successful, {failed_count} failed...")
-            await asyncio.sleep(0.05)  # 20 messages/second
+    # Function to update progress message
+    async def update_progress():
+        if progress_msg:
+            await progress_msg.edit_text(
+                f"Broadcast Progress:\n"
+                f"Groups: {success_groups} successful, {failed_groups} failed\n"
+                f"Users: {success_users} successful, {failed_users} failed"
+            )
 
-    # Handle groups
+    # Handle groups first
     if "groups" in targets:
         chats = await get_served_chats()
         for chat in chats:
             chat_id = chat["chat_id"]
             try:
+                # Skip bot chats if exclude_bots is True
                 if exclude_bots:
                     chat_info = await app.get_chat(chat_id)
                     if chat_info.type == "bot":
                         continue
+                # Attempt to send message
                 if forward:
                     await message.forward(chat_id)
                 else:
                     await message.copy(chat_id)
-                success_count += 1
-            except:
-                failed_count += 1
-            total_processed += 1
-            if total_processed % update_interval == 0 and progress_msg:
-                await progress_msg.edit_text(f"Progress: {success_count} successful, {failed_count} failed...")
-            await asyncio.sleep(0.05)  # 20 messages/second
+                success_groups += 1
+            except RPCError:  # Skip invalid or inaccessible chats
+                failed_groups += 1
+                continue
+            if (success_groups + failed_groups) % update_interval == 0:
+                await update_progress()
+            await asyncio.sleep(0.05)  # Rate limiting: 20 messages/second
+        await update_progress()  # Final update for groups
 
-    return success_count, failed_count
+    # Handle users after groups
+    if "users" in targets:
+        users = await get_served_users()
+        for user in users:
+            user_id = user["user_id"]
+            try:
+                # Attempt to send message
+                if forward:
+                    await message.forward(user_id)
+                else:
+                    await message.copy(user_id)
+                success_users += 1
+            except RPCError:  # Skip invalid or inaccessible users
+                failed_users += 1
+                continue
+            if (success_users + failed_users) % update_interval == 0:
+                await update_progress()
+            await asyncio.sleep(0.05)  # Rate limiting: 20 messages/second
+        await update_progress()  # Final update for users
+
+    return success_groups, failed_groups, success_users, failed_users
 
 @VenomX.on_message(filters.command("broadcast"))
 async def broadcast_command(_: Client, message: Message):
     """
     Command handler for /broadcast command.
     Usage:
-        /broadcast - Reply to a message to broadcast it (copy) to all users and groups
-        /broadcast -all - Same as above
+        /broadcast or /broadcast -all or /broadcast -f -all - Broadcast (copy/forward) to all users and groups
         /broadcast -f - Forward replied message to all users and groups
         /broadcast -f -users -groups -nobot - Forward to specified targets, exclude bots
         /broadcast -users -groups -nobot - Copy to specified targets, exclude bots
@@ -100,7 +115,14 @@ async def broadcast_command(_: Client, message: Message):
     if not targets:
         targets = ["users", "groups"]  # Default to all if no valid targets
 
-    progress_msg = await message.reply("Starting broadcast...")
-
-    success, failed = await broadcast_message(VenomX, message.reply_to_message, targets, forward, exclude_bots, progress_msg)
-    await progress_msg.edit_text(f"Broadcast completed: {success} successful, {failed} failed.")
+    progress_msg = await message.reply("Starting broadcast...\nGroups: 0 successful, 0 failed\nUsers: 0 successful, 0 failed")
+    
+    success_g, failed_g, success_u, failed_u = await broadcast_message(
+        VenomX, message.reply_to_message, targets, forward, exclude_bots, progress_msg
+    )
+    
+    await progress_msg.edit_text(
+        f"Broadcast completed:\n"
+        f"Groups: {success_g} successful, {failed_g} failed\n"
+        f"Users: {success_u} successful, {failed_u} failed"
+                    )
