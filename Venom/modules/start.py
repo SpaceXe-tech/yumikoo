@@ -53,10 +53,10 @@ async def start(_, m: Message):
             await asyncio.sleep(1)
             await umm.delete()
             
-            # Final message
+            # Final message with updated caption format
             await m.reply_photo(
                 photo=img,
-                caption=f"""**๏ ʜᴏʟᴀ ᴀᴍɪɢᴏ ʙᴀʙʏ💟, ʜᴏᴡ ᴀʀᴇ ʏᴏᴜ?, ɪ ᴀᴍ {VenomX.name}**\n**➻ ᴀɴ ᴀɪ ʙᴀsᴇᴅ ᴄʜᴀᴛʙᴏᴛ .**\n**──────────────**\n**➻ ᴜsᴀɢᴇ /chatbot [ᴏɴ/ᴏғғ] or /schatbot [ᴏɴ/ᴏғғ]**\n<b>||๏ ʜɪᴛ ʜᴇʟᴩ ʙᴜᴛᴛᴏɴ ғᴏʀ ʜᴇʟᴩ||</b>""",
+                caption=f"""<b><blockquote>ʜᴇya ǫᴛ/ǫᴛᴀ 💞, ɪ'ᴍ {VenomX.name} 💜</blockquote></b>\n──────────────\n<b>• ᴛʏᴘᴇ :</b> ᴀɪ-ʙᴀsᴇᴅ ᴄʜᴀᴛʙᴏᴛ\n<b>• ᴜsᴀɢᴇ :</b> /chatbot [ᴏɴ/ᴏғғ] ғᴏʀ ᴛᴇxᴛs ᴏʀ /schatbot [ᴏɴ/ᴏғғ] ғᴏʀ sᴛɪᴄᴋᴇʀs\n<b>• ɴᴏᴛᴇ :</b> ʜɪᴛ ʜᴇʟᴘ ʙᴜᴛᴛᴏɴ ғᴏʀ ᴍᴏʀᴇ ɪɴғᴏ""",
                 reply_markup=InlineKeyboardMarkup(DEV_OP),
             )
             await add_served_user(m.from_user.id)
@@ -66,7 +66,7 @@ async def start(_, m: Message):
         try:
             await m.reply_photo(
                 photo=random.choice(IMG),
-                caption=START,
+                caption=f"""<b><blockquote>ʜᴇʟʟᴏ, ɪ'ᴍ {VenomX.name} 🤖</blockquote></b>\n──────────────\n<b>• ᴛʏᴘᴇ :</b> ᴀɪ-ʙᴀsᴇᴅ ᴄʜᴀᴛʙᴏᴛ\n<b>• ɴᴏᴛᴇ :</b> ᴘʟᴇᴀsᴇ ᴜsᴇ /help ᴛᴏ ᴇxᴘʟᴏʀᴇ ᴍʏ ᴄᴏᴍᴍᴀɴᴅs""",
                 reply_markup=InlineKeyboardMarkup(HELP_START),
             )
             await add_served_chat(m.chat.id)
@@ -79,7 +79,7 @@ async def help(client: VenomX, m: Message):
         try:
             await m.reply_photo(
                 photo=random.choice(IMG),
-                caption=HELP_READ,
+                caption=f"""<b><blockquote>ʜᴇʟᴘ ᴍᴇɴᴜ ᴀᴄᴛɪᴠᴀᴛᴇᴅ 📖</blockquote></b>\n──────────────\n<b>• ᴅᴇsᴄʀɪᴘᴛɪᴏɴ :</b> ᴇxᴘʟᴏʀᴇ ᴍʏ ᴄᴏᴍᴍᴀɴᴅs\n<b>• ɴᴏᴛᴇ :</b> sᴇʟᴇᴄᴛ ʙᴜᴛᴛᴏɴs ʙᴇʟᴏᴡ ғᴏʀ ᴍᴏʀᴇ ɪɴғᴏ""",
                 reply_markup=InlineKeyboardMarkup(HELP_BTN),
             )
             await add_served_user(m.from_user.id)
@@ -89,7 +89,7 @@ async def help(client: VenomX, m: Message):
         try:
             await m.reply_photo(
                 photo=random.choice(IMG),
-                caption="**ʜᴇʏ, ᴘʟᴇᴀsᴇ 🥺 ᴘᴍ ᴍᴇ ғᴏʀ ʜᴇʟᴩ ᴄᴏᴍᴍᴀɴᴅs!**",
+                caption=f"""<b><blockquote>ʜᴇʟᴘ ᴍᴇɴᴜ ʀᴇǫᴜᴇsᴛᴇᴅ 📖</blockquote></b>\n──────────────\n<b>• ɴᴏᴛᴇ :</b> ᴘʟᴇᴀsᴇ ᴘᴍ ᴍᴇ ᴛᴏ ᴠɪᴇᴡ ʜᴇʟᴘ ᴄᴏᴍᴍᴀɴᴅs""",
                 reply_markup=InlineKeyboardMarkup(HELP_BUTN),
             )
             await add_served_chat(m.chat.id)
@@ -111,7 +111,10 @@ async def repo(_, m: Message):
 async def welcome(_, m: Message):
     for _ in m.new_chat_members:
         try:
-            await m.reply_photo(photo=random.choice(IMG), caption=START)
+            await m.reply_photo(
+                photo=random.choice(IMG),
+                caption=f"""<b><blockquote>ᴡᴇʟᴄᴏᴍᴇ ᴛᴏ ᴛʜᴇ ᴄʜᴀᴛ 🤝</blockquote></b>\n──────────────\n<b>• ɴᴀᴍᴇ :</b> {VenomX.name}\n<b>• ɴᴏᴛᴇ :</b> ᴜsᴇ /start ᴛᴏ ɪɴᴛᴇʀᴀᴄᴛ ᴡɪᴛʜ ᴍᴇ""",
+            )
         except ChannelPrivate:
             pass
 
