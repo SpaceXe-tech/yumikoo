@@ -1,10 +1,10 @@
+import asyncio
 from pyrogram import filters, Client
 from pyrogram.types import Message
 from pyrogram.errors import RPCError
 from Venom import VenomX, config
 from Venom.database.users import get_served_users
 from Venom.database.chats import get_served_chats
-import asyncio
 
 # Authorized users
 OWNER_ID = config.OWNER_ID
